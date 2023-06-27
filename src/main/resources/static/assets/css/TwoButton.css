@@ -1,0 +1,76 @@
+body {
+    margin: 0;
+    font-family: Montserrat, sans-serif;
+
+    font-size: 15px;
+    line-height: 1.6;
+    color: white;
+}
+
+
+
+.two__button {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+.title {
+    color: black;
+    font-weight: 700;
+    font-size: 30px;
+    text-align: center;
+    margin-top: 320px;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    margin-right: 25px;
+}
+
+.student {
+    display: flex;
+    align-items: center;
+}
+
+.usr {
+    background-color: #444dcd;
+    padding: 15px 39px;
+    text-decoration: none;
+    text-transform: uppercase;;
+    align-items: center;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 50px;
+    font-size: 25px;
+
+    transition:  background-color .2s linear;
+}
+
+.usr:hover {
+    background-color: #3b495c;
+}
+
+.student {
+   float: right; 
+}
+
+.stdn {
+    background-color: #444dcd;
+    padding: 15px 19px;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 50px;
+    font-size: 25px;
+
+    transition:  background-color .2s linear;
+}
+
+.stdn:hover {
+    background-color: #3b495c;
+}

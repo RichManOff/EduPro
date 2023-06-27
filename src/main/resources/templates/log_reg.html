@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- общая ссылка стилей -->
+  <!-- <link rel="stylesheet" href="style/all.css" /> -->
+  <!-- ссылка для готовых иконок -->
+  <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css" />
+  <!-- слайдер стиль -->
+  <link rel="stylesheet" type="text/css" href="/assets/js/slick/slick.css" />
+  <link rel="stylesheet" type="text/css" href="/assets/js/slick/slick-theme.css" />
+
+  <!-- анимация при скроле -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <!-- jquery -->
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <link rel="stylesheet" href="/style/components/log_reg.css" />
+  <style>
+    .error-message {
+      color: red;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+  </style>
+  <title>Education</title>
+</head>
+<body>
+<div class="container" id="container">
+  <div onClick="window.location='index.html';" style="cursor: pointer; position: fixed;top: 10px;left: 10px;z-index: 9999;"><a href="/home"><i class="las la-arrow-left la-4x"></i></a></div>
+  <div class="form-container sign-up-container">
+    <form id="signupForm">
+      <h1>Create Account</h1>
+      <input id="firstName" type="text" placeholder="First Name" />
+      <input id="lastName" type="text" placeholder="Last Name" />
+      <input id="username" type="text" placeholder="Username" />
+      <input id="email" type="email" placeholder="Email" />
+      <input id="password" type="password" placeholder="Password" />
+      <input id="confirmPassword" type="password" placeholder="Confirm Password" />
+      <button id="signingUp">Sign Up</button>
+      <div id="signupErrorMessage" class="error-message"></div> <!-- Display signup error message here -->
+    </form>
+  </div>
+  <div class="form-container sign-in-container">
+    <form id="signinForm" method="post" action="/home/login">
+      <h1>Sign in</h1>
+      <span>or use your account</span>
+      <input id="signinUsername" type="text" placeholder="Username" name="username" autofocus="true"/>
+      <input id="signinPassword" type="password" placeholder="Password" name="password"/>
+      <a href="#">Forgot your password?</a>
+      <button id="signingIn" type="submit">Sign In</button>
+      <div id="signinErrorMessage" class="error-message"></div> <!-- Display signin error message here -->
+    </form>
+  </div>
+  <div class="overlay-container">
+    <div class="overlay">
+      <div class="overlay-panel overlay-left">
+        <h1>Welcome Back!</h1>
+        <p>To keep connected with us please log in with your personal info</p>
+        <button class="ghost" id="signIn">Sign In</button>
+      </div>
+      <div class="overlay-panel overlay-right">
+        <h1>Hello, Friend!</h1>
+        <p>Enter your personal details and start a journey with us</p>
+        <button class="ghost" id="signUp">Sign Up</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+  AOS.init();
+
+  $(document).ready(function () {
+    $('#signingUp').click(function (event) {
+      event.preventDefault();
+
+      var firstName = $("#firstName").val();
+      var lastName = $("#lastName").val();
+      var username = $("#username").val();
+      var email = $("#email").val();
+      var password = $("#password").val();
+      var confirmPassword = $("#confirmPassword").val();
+
+      // Perform form validation for signup
+      if (firstName.trim() === '') {
+        $("#signupErrorMessage").text('First name is required.'); // Display signup error message
+        return;
+      }
+
+      if (lastName.trim() === '') {
+        $("#signupErrorMessage").text('Last name is required.'); // Display signup error message
+        return;
+      }
+
+      if (username.trim() === '') {
+        $("#signupErrorMessage").text('Username is required.'); // Display signup error message
+        return;
+      }
+
+      if (email.trim() === '') {
+        $("#signupErrorMessage").text('Email is required.'); // Display signup error message
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        $("#signupErrorMessage").text('Invalid email address.'); // Display signup error message
+        return;
+      }
+
+      if (password.trim() === '') {
+        $("#signupErrorMessage").text('Password is required.'); // Display signup error message
+        return;
+      }
+
+      if (password.length < 6) {
+        $("#signupErrorMessage").text('Password must be at least 6 characters long.'); // Display signup error message
+        return;
+      }
+
+      if (confirmPassword.trim() === '') {
+        $("#signupErrorMessage").text('Confirm password is required.'); // Display signup error message
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        $("#signupErrorMessage").text('Password and Confirm Password do not match!'); // Display signup error message
+        return;
+      }
+
+      var formData = {
+        firstName: firstName,
+        lastName: lastName,
+        username: username,
+        email: email,
+        password: password,
+      };
+      var url = '/home/login/register'
+      $.ajax({
+        type: "POST",
+        contentType: 'application/json',
+        // dataType: 'json',
+        url: url,
+        data: JSON.stringify(formData),
+        cache: false,
+        success: function (result) {
+          $('#successContainer').text('Register successful');
+          $('#signupForm')[0].reset();
+          // Clear any existing error message
+          $('#errorContainer').empty();
+          $("#signupErrorMessage").empty(); // Clear signup error
+          var redirectUrl = '/home/userPage';
+          window.location.href = redirectUrl;// message
+
+        },
+        error: function (xhr, status, error) {
+          var errorMessage = xhr.status + ': ' + xhr.statusText;
+          // Display an error message based on the response
+          if (xhr.responseJSON && xhr.responseJSON.message) {
+            errorMessage = xhr.responseJSON.message;
+          } else if (xhr.responseText) {
+            errorMessage = xhr.responseText;
+          }
+          // Display the error message on the web page
+          $('#errorContainer').text(errorMessage);
+          // Clear any existing success message
+          $('#successContainer').empty();
+          $("#signupErrorMessage").empty(); // Clear signup error message
+        }
+      });
+
+    });
+
+    // $('#signingIn').click(function (event) {
+    //   event.preventDefault();
+    //
+    //   var username = $("#signinUsername").val();
+    //   var password = $("#signinPassword").val();
+    //
+    //   // Perform form validation for login
+    //   if (username.trim() === '') {
+    //     $("#signinErrorMessage").text('Username is required.'); // Display signin error message
+    //     return;
+    //   }
+    //
+    //   if (password.trim() === '') {
+    //     $("#signinErrorMessage").text('Password is required.'); // Display signin error message
+    //     return;
+    //   }
+    //
+    //   var url = "/home/login/auth";
+    //   var params = {
+    //     username: username,
+    //     password: password
+    //   };
+    //
+    //   $.ajax({
+    //     type: "POST",
+    //     url: url,
+    //     data: params,
+    //     cache: false,
+    //     success: function (result) {
+    //       $('#successContainer').text('Login successful');
+    //       $('#signinForm')[0].reset();
+    //       // Clear any existing error message
+    //       $('#errorContainer').empty();
+    //       $("#signinErrorMessage").empty(); // Clear signin error message
+    //       // var redirectUrl = '/home/userPage';
+    //       // window.location.href = redirectUrl;// message
+    //     },
+    //     error: function (xhr, status, error) {
+    //       var errorMessage = xhr.responseText; // Extract the error message from the response
+    //       $('#errorContainer').text(errorMessage); // Display the error message
+    //       $('#successContainer').empty();
+    //       $("#signinErrorMessage").text(errorMessage);
+    //     }
+    //   });
+    //
+    // });
+  });
+
+  // Helper function to validate email address
+  function isValidEmail(email) {
+    // Regular expression to validate email format
+    let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  }
+
+</script>
+<script src="/js/log_reg.js"></script>
+</body>
+</html>

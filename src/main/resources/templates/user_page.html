@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel = "stylesheet" href="/assets/css/user_page.css">
+        <link rel = "stylesheet" href="/font-awesome/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Montserrat:400,700&amp;subset=cyrillic-ext"
+        rel="stylesheet">
+        <link
+      rel="stylesheet"
+      href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"
+    />
+        <title>EduPro | User</title>
+    </head>
+    <body>
+        <nav class="nav">
+            <div class="container">
+                <div class="nav-row">
+                    <div class="logo"><p><img src="/assets/images/icons8-мозги-64.png" class="header__logo" width="48px" height="48px"><a class="home__link" href="/home">EduPro</a></p></div>
+
+                    <div class="search_box">
+                        <input type="text" id="searchInput" class="search-txt" placeholder="Search input">
+                        <button id="searchBtn"><a class="search_btn"><i class="fa fa-search" aria-hidden="true"></i></a></button>
+                    </div>
+
+                    <button class="dark-mode-btn">
+                        <img src="/assets/images/Sun.svg" alt="Light mode" class="dark-mode-btn__icon">
+                        <img src="/assets/images/Moon.svg" alt="Dark mode" class="dark-mode-btn__icon">
+                    </button>
+
+                    <ul class="nav-list">
+                        <li class="nav-list__item"><a class="nav-list__link" href="/home/universities">Find a university</a></li>
+                        <li class="nav-list__item"><a class="nav-list__link" href="/home/specialties"> Speciality</a></li>
+                        <li class="nav-list__item"><a class="nav-list__link" href="/home/aboutUs">About Us</a></li>
+                        <li class="nav-list__item"><a class="nav-list__link" href="/home/courses">Courses</a></li>
+                        <li class="nav__button" ><a class="nav-list__link" id="nav__button" href="/home/userPage">Get Started</a></li>
+                    </ul>
+
+
+                </div>
+            </div>
+        </nav>
+
+        <div class="uni__card" th:object="${user}">
+          
+            <div class="container">
+
+                <div class="card__inner_1">
+                    
+                    <div class="card__image_1">
+                        <img class="card__img_1" src="/assets/images/Avatar-PNG-Images-HD.png" alt="">
+                        <div class="history">
+                            <div class="history__title">
+                                <h2><strong>History of visits</strong></h2>
+                            </div>
+                            <hr>
+                            <div class="history__suptitle">
+                                <h3><strong>Have you recently searched:</strong></h3>
+                            </div>
+                            <div th:each="university, stat : ${universities}" class="card__inner">
+                                <div class="history__text">
+                                    <div class="history__time">[[${university.timestamp}]]</div>
+                                    <a class="history__link" th:href="@{/home/specialties/info(id=${university.id})}">
+                                        [[${universityNames[__${stat.index}__]}]]
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="history__title">
+                                <h2><strong>History of search</strong></h2>
+                            </div>
+                            <hr>
+                            <div class="history__suptitle">
+                                <h3><strong>Have you recently searched:</strong></h3>
+                            </div>
+                            <div th:each="keyword : ${keywords}" class="card__inner">
+                                <div class="history__text">
+                                    <div class="history__time">[[${keyword.timestamp}]]</div>
+                                    <a class="history__link" th:href="@{/home/search(keyword=${keyword.keywords})}">[[${keyword.keywords}]]</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card__title_1">
+                        
+                        <div class="card__header_1">
+                            [[${user.firstName}]] [[${user.lastName}]]
+                            <span>[[${user.username}]]</span>
+                        </div>
+                        <div class="card__suptitle">
+                            <strong>Contacts</strong>
+                        </div>
+
+                        <hr>
+
+                        <div class="number">
+                            <img class="num__img" src="/assets/images/icons8-звонящий-телефон-50.png" alt="">
+                            <a class="num" href="#">+7 (777)000-00-00</a>
+                        </div><br>
+                        
+                        <div class="email">
+                            <img class="email__img" src="/assets/images/icons8-сообщение-с-заливкой-30.png" alt="">
+                            <a class="email__adress" href="#">[[${user.email}]]</a>
+                        </div>
+
+                        <div class="geoposition">
+                            <img class="geo__img" src="/assets/images/icons8-геозона-50.png" alt="">
+                            <a class="geo__adress" href="#">просп. Кабанбай Батыра 53,<br> г. Астана</a>
+                        </div>
+
+                        <div class="birthday">
+                            <img class="birthday__img" src="/assets/images/icons8-дата-рождения-50.png" alt="">
+                            <a class="birthday__date" href="#">June 6, 1998</a>
+                        </div>
+                        
+                            <div class="about__me">
+
+                                <div class="history__title">
+                                    <h2><strong>List of your favorites</strong></h2>
+                                </div>
+                                <hr>
+                                <div class="history__suptitle">
+                                    <h3><strong>Favorites</strong></h3>
+                                </div>
+                                <div th:each="favority, stat : ${favorities}" class="card__inner">
+                                    <div class="history__text">
+                                        <div class="history__time">[[${favority.id}]]</div>
+                                        <a class="history__link" th:href="@{/home/universities/info(id=${favority.universityId})}">
+                                            [[${favorityNames[__${stat.index}__]}]]
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        <!--<div class="container">
+                            <hr style="position: absolute; width: 48%; ">
+                        </div>-->
+
+                            <div class="social__media">
+                            
+                                <div class="card__suptitle">
+                                    <h2>Social Media</h2>
+                                </div>
+
+                                <hr>
+                                
+                                <div class="social__input1">
+                                    
+                                    <div class="social__text1">
+                                        <strong>Twitter</strong>
+                                    </div>
+
+                                    
+                                    <input class="social__inp1" type="text">
+                                </div>
+
+                                <div class="social__input2">
+                                    
+                                    <div class="social__text1">
+                                        <strong>Instagramm</strong>
+                                    </div>
+
+                                    
+                                    <input class="social__inp2" type="text">
+                                </div>
+
+                                <div class="social__input3">
+                                    
+                                    <div class="social__text1">
+                                        <strong>TikTok</strong>
+                                    </div>
+
+                                    <input class="social__inp3" type="text">
+                                </div>
+
+                            </div>
+                        <div style="margin-top: 20px;">
+                            <button><a id="user__button" href="/logout">Logout</a></button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        
+        <footer class="footer">
+          <div class="footer_inner">
+            <div class="footer_inner_row">
+              <div class="footer_items">
+                <h2>Get Newsletter</h2>
+                <p>
+                  Be among the first to receive timely program and event info,
+                  career tips, industry trends and more.
+                </p>
+              </div>
+              <div class="footer_items">
+                <h2>Follow Us</h2>
+                <ul>
+                  <li>
+                    <i class="lab la-twitter"></i>
+                  </li>
+                  <li>
+                    <i class="lab la-linkedin-in"></i>
+                  </li>
+                  <li>
+                    <i class="lab la-facebook-f"></i>
+                  </li>
+                  <li>
+                    <i class="lab la-instagram"></i>
+                  </li>
+                </ul>
+              </div>
+              <div class="footer_items">
+                <h2>Useful Links</h2>
+                <p>What we do</p>
+                <p>Our Project</p>
+                <p>FAQ</p>
+                <p>Get In Touch</p>
+              </div>
+              <div class="footer_items">
+                <h2>Contacts</h2>
+                <p>
+                  Address: <br />
+                  <span style="color: #ccc;">Manasa 34 Almaty</span> <br />
+                  Phone: <br />
+                  <span style="color: #ccc;">+ 7 777 777 77 77 </span><br />
+                  Email: <span style="color: #ccc;">iitu.kz</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </footer>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="/js/main.js"></script>
+    <script>
+        document.getElementById("searchBtn").addEventListener("click", function() {
+            var keyword = document.getElementById("searchInput").value;
+            var href = "/home/search?keyword=" + encodeURIComponent(keyword);
+            window.location.href = href;
+        });
+        $(document).ready(function() {
+            $.ajax({
+                url: "/home/name", // Replace with your endpoint URL
+                method: "GET",
+                success: function(response) {
+                    if (response !== "Anonymous") {
+                        var userName = response;
+                        $("#nav__button").text(userName);
+                    }
+                }
+            });
+        });
+
+    </script>
+    </body>
+</html>

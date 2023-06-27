@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>EduPro | IITU</title>
+        <link rel="stylesheet" href="/assets/css/univercity-info.css">
+        <link rel = "stylesheet" href="/font-awesome/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Montserrat:400,700&amp;subset=cyrillic-ext"
+        rel="stylesheet">
+        <link
+      rel="stylesheet"
+      href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"
+    />
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        <style>
+            #feedbackForm {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            #commentSection {
+                display: none;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: wrap;
+                width:100%;
+            }
+            *{
+                margin: 0px;
+                padding: 0px;
+                font-family: poppins;
+                box-sizing: border-box;
+            }
+            a{
+                text-decoration: none;
+            }
+            .testimonial-box{
+                width:1150px;
+                box-shadow: 2px 2px 30px rgba(0,0,0,0.1);
+                background-color: #ffffff;
+                padding: 20px;
+                margin: 15px;
+                cursor: pointer;
+            }
+            .profile-img{
+                width:50px;
+                height: 50px;
+                border-radius: 50%;
+                overflow: hidden;
+                margin-right: 10px;
+            }
+            .profile-img img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+            }
+            .profile{
+                display: flex;
+                align-items: center;
+            }
+            .name-user{
+                display: flex;
+                flex-direction: column;
+            }
+            .name-user strong{
+                color: #3d3d3d;
+                font-size: 1.1rem;
+                letter-spacing: 0.5px;
+            }
+            .name-user span{
+                color: #979797;
+                font-size: 0.8rem;
+            }
+            .reviews{
+                color: #f9d71c;
+            }
+            .box-top{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .client-comment{
+                font-size: 0.9rem;
+                color: #4b4b4b;
+            }
+            .testimonial-box:hover{
+                transform: translateY(-10px);
+                transition: all ease 0.3s;
+            }
+
+            @media(max-width:1060px){
+                .testimonial-box{
+                    width:45%;
+                    padding: 10px;
+                }
+            }
+            @media(max-width:790px){
+                .testimonial-box{
+                    width:100%;
+                }
+            }
+            @media(max-width:340px){
+                .box-top{
+                    flex-wrap: wrap;
+                    margin-bottom: 10px;
+                }
+                .reviews{
+                    margin-top: 10px;
+                }
+            }
+            ::selection{
+                color: #ffffff;
+                background-color: #252525;
+            }
+            #commentSection {
+                position: relative;
+            }
+
+            #editButton {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                margin-right: 25px;
+            }
+
+            .reviews {
+                position: absolute;
+                top: 0;
+                right: 0;
+                margin-right: 0px;
+            }
+        </style>
+    </head>
+    <body>
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-row">
+                <div class="logo"><p><img src="/assets/images/icons8-мозги-64.png" class="header__logo" width="48px" height="48px"><a class="home__link" href="/home">EduPro</a></p></div>
+
+                <div class="search_box">
+                    <input type="text" id="searchInput" class="search-txt" placeholder="Search input">
+                    <button id="searchBtn"><a class="search_btn"><i class="fa fa-search" aria-hidden="true"></i></a></button>
+                </div>
+
+                <button class="dark-mode-btn">
+                    <img src="/assets/images/Sun.svg" alt="Light mode" class="dark-mode-btn__icon">
+                    <img src="/assets/images/Moon.svg" alt="Dark mode" class="dark-mode-btn__icon">
+                </button>
+
+                <ul class="nav-list">
+                    <li class="nav-list__item"><a class="nav-list__link" href="/home/universities">Find a university</a></li>
+                    <li class="nav-list__item"><a class="nav-list__link" href="/home/specialties"> Speciality</a></li>
+                    <li class="nav-list__item"><a class="nav-list__link" href="/home/aboutUs">About Us</a></li>
+                    <li class="nav-list__item"><a class="nav-list__link" href="/home/courses">Courses</a></li>
+                    <li class="nav__button" ><a class="nav-list__link" id="nav__button" href="/home/userPage">Get Started</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+        <div class="univer__info">
+
+            <div class="container">
+                <div id="univerInfo"></div>
+                <div data-aos="fade-right" class="info__title">
+                    <h1>Academic activity</h1>
+                </div>
+
+                <hr>
+
+                <div data-aos="fade-up"
+                     data-aos-anchor-placement="bottom-bottom" class="info__titleh2">
+                    <h2>Undergraduate specialties</h2>
+                </div>
+
+                <div data-aos="fade-up"
+                     data-aos-anchor-placement="bottom-bottom" class="info__suptitle">
+                    As of January 24, 2022 provides 26 training programs in 6 groups of educational programs:
+                </div>
+
+                <div data-aos="fade-up"
+                     data-aos-anchor-placement="bottom-bottom" class="spisok">
+                    <ul id="specialties-list">
+                    </ul>
+                </div>
+
+                <div class="testimonial-box">
+                        <div id="commentSection">
+                        <!--top------------------------->
+                            <div class="box-top">
+                                <!--profile----->
+                                <div class="profile">
+                                    <!--img---->
+                                    <div class="profile-img">
+                                        <img src="/assets/images/Avatar-PNG-Images-HD.png" />
+                                    </div>
+                                    <!--name-and-username-->
+                                    <div class="name-user" id="name-user">
+                                        <strong></strong>
+                                    </div>
+                                </div>
+                                <!--reviews------>
+                                <div class="reviews">
+                                    <div class="rating-result" id="rating__num" style="width: 165px"></div>
+                                </div>
+                                <br>
+                                <br>
+                                <button id="editButton">Edit</button>
+
+                            </div>
+                            <!--Comments---------------------------------------->
+                            <div class="client-comment" id="client-comment"></div>
+                        </div>
+                        <form id="feedbackForm">
+                        <label >Any Other suggestions:</label>
+                        <textarea cols="75" id="comment" rows="5" style=" border: 2px solid #ccc;border-radius: 4px;background-color: #f8f8f8;"></textarea>
+                        <div class="clear"></div>
+                        <hr class="survey-hr">
+                        <label>Your overall experience about university ?</label>
+                        <span class="star-rating">
+                                  <input type="radio" name="rating" value="2"><i></i>
+                                  <input type="radio" name="rating" value="4"><i></i>
+                                  <input type="radio" name="rating" value="6"><i></i>
+                                  <input type="radio" name="rating" value="8"><i></i>
+                                  <input type="radio" name="rating" value="10"><i></i>
+                                </span>
+                        <br>
+                        <div class="clear"></div>
+                        <button id="user__button" style="background:#5c62ec;color:#fff;padding:12px;border:0"
+                                type="submit" value="Submit your review">Submit your review</button>
+                    </form>
+
+                    </div>
+
+                </div>
+        </div>
+        </div>
+        <span id="universityId"></span>
+        <footer class="footer">
+            <div class="footer_inner">
+              <div class="footer_inner_row">
+                <div class="footer_items">
+                  <h2>Get Newsletter</h2>
+                  <p>
+                    Be among the first to receive timely program and event info,
+                    career tips, industry trends and more.
+                  </p>
+                </div>
+                <div class="footer_items">
+                  <h2>Follow Us</h2>
+                  <ul>
+                    <li>
+                      <i class="lab la-twitter"></i>
+                    </li>
+                    <li>
+                      <i class="lab la-linkedin-in"></i>
+                    </li>
+                    <li>
+                      <i class="lab la-facebook-f"></i>
+                    </li>
+                    <li>
+                      <i class="lab la-instagram"></i>
+                    </li>
+                  </ul>
+                </div>
+                <div class="footer_items">
+                  <h2>Useful Links</h2>
+                  <p>What we do</p>
+                  <p>Our Project</p>
+                  <p>FAQ</p>
+                  <p>Get In Touch</p>
+                </div>
+                <div class="footer_items">
+                  <h2>Contacts</h2>
+                  <p>
+                    Address: <br />
+                    <span style="color: #ccc;">Manasa 34 Almaty</span> <br />
+                    Phone: <br />
+                    <span style="color: #ccc;">+ 7 777 777 77 77 </span><br />
+                    Email: <span style="color: #ccc;">iitu.kz</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </footer>
+        <div ></div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+          <script>
+            AOS.init();
+            document.getElementById("searchBtn").addEventListener("click", function() {
+                var keyword = document.getElementById("searchInput").value;
+                var href = "/home/search?keyword=" + encodeURIComponent(keyword);
+                window.location.href = href;
+            });
+
+            $(document).ready(function() {
+                var univid;
+                $.ajax({
+                    type: "GET",
+                    url: "/home/universities/info/id", // Replace with the actual API endpoint URL
+                    // data: { id: universityId },
+                    success: function(data) {
+                        var university = data;
+                        univid = university.id
+                        var universityHTML = `
+                <div data-aos="fade-right" class="info__header">
+                    <h1>University data</h1>
+                </div>
+                            <hr>
+                            <div class="info__inner">
+                                <div data-aos="fade-up" data-aos-anchor-placement="bottom-bottom"
+                                     class="info__image">
+
+                                        <img class="info__img" src="${university.logo}" alt="khjknlkn" id="universityLogo" style ="width: 450px; height: 300px; object-fit: contain;">
+                                    </div>
+                                    <div class="uniinfo__title">
+                                        <strong id="universityName">${university.name}</strong> - ${university.description}<span id="universityDescription"></span>
+                                        <br>
+                                            <div class="geoposition" id="universityLocation"><img class="geo__img" src="/assets/images/icons8-геозона-50.png" alt="">  Location: ${university.location}</div><br>
+                                            <div class="email" id="universityWebsite"><img class="email__img" src="/assets/images/icons8-сообщение-с-заливкой-30.png" alt="">  Website: <a href="${university.website}" target="_blank">${university.website}</a></div><br>
+                                            <div class="rating-result">
+                                                <div class="rating__num">${university.rating}</div>
+                                                <span class="${university.rating >= 2 ? 'active' : ''}"></span>
+                                                <span class="${university.rating >= 4 ? 'active' : ''}"></span>
+                                                <span class="${university.rating >= 6 ? 'active' : ''}"></span>
+                                                <span class="${university.rating >= 8 ? 'active' : ''}"></span>
+                                                <span class="${university.rating >= 10 ? 'active' : ''}"></span>
+                                              </div>
+                                    </div>
+                                </div>
+
+                        `;
+                        $('#univerInfo').html(universityHTML);
+                        fetchSpecialties();
+                    },
+                    error: function() {
+                        console.log('Error fetching university information.');
+                    }
+                });
+                $('#feedbackForm').submit(function(event) {
+                    event.preventDefault(); // Prevent the default form submission
+                    var comment = $("#comment").val();
+                    var rating = $('input[name=rating]:checked').val();
+
+                    // Get the form data
+                    var formData = {
+                        comment: comment,
+                        rating: rating,
+                        universityId: univid
+                    };
+
+                    // Send the Ajax request
+                    $.ajax({
+                        type: 'POST',
+                        url: '/home/universities/info/submit-comment', // Replace with your server-side URL
+                        data: JSON.stringify(formData),
+                        contentType: 'application/json',
+                        success: function(response) {
+
+                            // Display the comment and rating in the comment section
+                            $("#client-comment").text("Comment: " + comment);
+                            $("#rating__num").html(`
+                            <span class="${rating >= 2 ? 'active' : ''}"></span>
+                                    <span class="${rating >= 4 ? 'active' : ''}"></span>
+                                    <span class="${rating >= 6 ? 'active' : ''}"></span>
+                                    <span class="${rating >= 8 ? 'active' : ''}"></span>
+                                    <span class="${rating >= 10 ? 'active' : ''}"></span><!--Empty star-->
+                            `);
+
+                            // Show the comment section
+                            $("#commentSection").show();
+
+                            // Hide the form inputs and radios
+                            $("#feedbackForm").hide();
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle the error response
+                            console.error(xhr.responseText);
+                            // Perform any error handling required
+                        }
+                    });
+                });
+                $("#editButton").click(function() {
+                    // Show the form inputs and radios
+                    $("#feedbackForm").show();
+
+                    // Hide the comment section
+                    $("#commentSection").hide();
+                });
+                function fetchSpecialties() {
+                    $.ajax({
+                        type: "GET",
+                        url: "/home/universities/specialties",
+                        success: function(response) {
+                            // Clear the existing list
+                            $("#specialties-list").empty();
+
+                            // Iterate over the specialties and append them to the list
+                            for (var i = 0; i < response.length; i++) {
+                                var specialty = response[i];
+                                $("#specialties-list").append("<li class='spisok-text'><a href='/home/specialties/info?id=" + specialty.id + "'>" + specialty.name + "</li>");
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+                }
+                $.ajax({
+                    url: "/home/name", // Replace with your endpoint URL
+                    method: "GET",
+                    success: function(response) {
+                        if (response !== "Anonymous") {
+                            var userName = response;
+                            $("#nav__button").text(userName);
+                            $("#name-user").text(userName);
+                        }
+                    }
+                });
+            });
+          </script>
+
+          <script src="/js/main.js"></script>
+    </body>
+</html>
+
+

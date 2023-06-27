@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel = "stylesheet" href="/assets/css/speciality-vmeste.css">
+        <link rel = "stylesheet" href="/font-awesome/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Montserrat:400,700&amp;subset=cyrillic-ext"
+        rel="stylesheet">
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        <title>EduPro | Medicine</title>
+    </head>
+    <body>
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-row">
+                <div class="logo"><p><img src="/assets/images/icons8-мозги-64.png" class="header__logo" width="48px" height="48px"><a class="home__link" href="/home">EduPro</a></p></div>
+
+                <div class="search_box">
+                    <input type="text" id="searchInput" class="search-txt" placeholder="Search input">
+                    <button id="searchBtn"><a class="search_btn"><i class="fa fa-search" aria-hidden="true"></i></a></button>
+                </div>
+
+                <button class="dark-mode-btn">
+                    <img src="/assets/images/Sun.svg" alt="Light mode" class="dark-mode-btn__icon">
+                    <img src="/assets/images/Moon.svg" alt="Dark mode" class="dark-mode-btn__icon">
+                </button>
+
+                <ul class="nav-list">
+                    <li class="nav-list__item"><a class="nav-list__link" href="/home/universities">Find a university</a></li>
+                    <li class="nav-list__item"><a class="nav-list__link" href="/home/specialties"> Speciality</a></li>
+                    <li class="nav-list__item"><a class="nav-list__link" href="/home/aboutUs">About Us</a></li>
+                    <li class="nav-list__item"><a class="nav-list__link" href="/home/courses">Courses</a></li>
+                    <li class="nav__button" ><a class="nav-list__link" id="nav__button" href="/home/userPage">Get Started</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+        <div class="intro__images">
+            <div class="container">
+                <div id="specInfo"></div>
+                    <div data-aos="fade-up"
+                         data-aos-anchor-placement="bottom-bottom" class="spisok">
+                        <ul id="univList">
+                        </ul>
+                    </div>
+
+            </div>
+        </div>
+        <footer class="footer">
+          <div class="footer_inner">
+            <div class="footer_inner_row">
+              <div class="footer_items">
+                <h2>Get Newsletter</h2>
+                <p>
+                  Be among the first to receive timely program and event info,
+                  career tips, industry trends and more.
+                </p>
+              </div>
+              <div class="footer_items">
+                <h2>Follow Us</h2>
+                <ul>
+                  <li>
+                    <i class="lab la-twitter"></i>
+                  </li>
+                  <li>
+                    <i class="lab la-linkedin-in"></i>
+                  </li>
+                  <li>
+                    <i class="lab la-facebook-f"></i>
+                  </li>
+                  <li>
+                    <i class="lab la-instagram"></i>
+                  </li>
+                </ul>
+              </div>
+              <div class="footer_items">
+                <h2>Useful Links</h2>
+                <p>What we do</p>
+                <p>Our Project</p>
+                <p>FAQ</p>
+                <p>Get In Touch</p>
+              </div>
+              <div class="footer_items">
+                <h2>Contacts</h2>
+                <p>
+                  Address: <br />
+                  <span style="color: #ccc;">Manasa 34 Almaty</span> <br />
+                  Phone: <br />
+                  <span style="color: #ccc;">+ 7 777 777 77 77 </span><br />
+                  Email: <span style="color: #ccc;">iitu.kz</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </footer>
+
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+      <script>
+          AOS.init();
+          document.getElementById("searchBtn").addEventListener("click", function() {
+              var keyword = document.getElementById("searchInput").value;
+              var href = "/home/search?keyword=" + encodeURIComponent(keyword);
+              window.location.href = href;
+          });
+
+          $(document).ready(function() {
+              $.ajax({
+                  type: "GET",
+                  url: "/home/specialties/info/id", // Replace with the actual API endpoint URL
+                  // data: { id: universityId },
+                  success: function(data) {
+                      var specialty = data;
+                      var specHTML = `
+                         <div class="intro__inner">
+                            <div  class="intro__title">
+                                <h1>I want to become a ${specialty.name} in Kazakhstan. Where to go?</h1>
+                            </div>
+                            
+                            <img class="intro__img" src="${specialty.logo}" alt="">
+        
+                            <div class="intro__suptitle1">
+                                According to official data, the number of ${specialty.name} workers in the healthcare system of Kazakhstan is 253.8 thousand people
+                                <br/>
+                                ${specialty.description}
+                            </div>
+        
+</div>
+                        `;
+                      $('#specInfo').html(specHTML);
+                      fetchUniversities()
+                  },
+                  error: function() {
+                      console.log('Error fetching specialty information.');
+                  }
+              });
+
+              function fetchUniversities() {
+                  $.ajax({
+                      type: "GET",
+                      url: "/home/specialties/universities",
+                      success: function(response) {
+                          // Clear the existing list
+                          $("#univList").empty();
+
+                          // Iterate over the specialties and append them to the list
+                          for (var i = 0; i < response.length; i++) {
+                              var university = response[i];
+                              $("#univList").append("<li class='spisok-text' style='font-size: 25px; color: black'><h3><a href='/home/universities/info?id=" + university.id + "'>" + university.name + "</a></h3><br>" +
+                                  "<div class='intro__text'>" +
+                                  "                          <b>" + university.description + "</b>" +
+                                  "                      </div>" +
+                                  "</li>");
+                          }
+                      },
+                      error: function(xhr, status, error) {
+                          console.error(xhr.responseText);
+                      }
+                  });
+              }
+
+              $.ajax({
+                  url: "/home/name", // Replace with your endpoint URL
+                  method: "GET",
+                  success: function(response) {
+                      if (response !== "Anonymous") {
+                          var userName = response;
+                          $("#nav__button").text(userName);
+                      }
+                  }
+              });
+          });
+          </script>
+          <script src="/js/main.js"></script>
+    </body>
+</html>

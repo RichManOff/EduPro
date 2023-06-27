@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel = "stylesheet" href="/assets/css/spisokU.css">
+        <link
+      rel="stylesheet"
+      href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"/>
+        <link rel = "stylesheet" href="/font-awesome/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Montserrat:400,700&amp;subset=cyrillic-ext"
+        rel="stylesheet">
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        <title>EduPro | Find a university</title>
+      <style>
+        .pagination {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-top: 20px;
+          margin-bottom: 20px; /* Add margin-bottom to create space */
+        }
+
+        .pagination button {
+          padding: 10px 15px;
+          margin: 0 5px;
+          background-color: #5c62ec;
+          border: none;
+          cursor: pointer;
+          color: white; /* Add text color */
+          border-radius: 6px;
+          width: 90px; /* Add width */
+          height: 40px; /* Add height */
+        }
+
+        .pagination button:hover {
+          background-color: #ddd;
+        }
+
+        .pagination button:disabled {
+          cursor: not-allowed;
+          opacity: 0.5;
+        }
+
+        .pagination .current-page {
+          font-weight: bold;
+          color: black; /* Add color for the current page */
+
+        }
+        .card__inner {
+          position: relative;
+        }
+        .favorite-btn {
+          position: absolute;
+          bottom: 10px;
+          right: 10px;
+          background-color: transparent;
+          border: none;
+          cursor: pointer;
+          color: #999;
+          font-size: 24px;
+        }
+        .favorite-btn.active {
+          color: red; /* Set the color when the button is active */
+        }
+
+        /*.favorite-btn:hover {*/
+        /*  color: red;*/
+        /*}*/
+        /*.favorite-btn.favorite i.fa-heart {*/
+        /*  color: red;*/
+        /*}*/
+
+        /*.favorite-btn.favorite i.fa-heart.red-heart {*/
+        /*  color: initial;*/
+        /*}*/
+
+        .red {
+          color: red;
+        }
+
+      </style>
+    </head>
+    <body class="">
+      <nav class="nav">
+        <div class="container">
+          <div class="nav-row">
+            <div class="logo"><p><img src="/assets/images/icons8-мозги-64.png" class="header__logo" width="48px" height="48px"><a class="home__link" href="/home">EduPro</a></p></div>
+
+            <div class="search_box">
+              <input type="text" id="searchInput" class="search-txt" placeholder="Search input">
+              <button id="searchBtn"><a class="search_btn"><i class="fa fa-search" aria-hidden="true"></i></a></button>
+            </div>
+
+            <button class="dark-mode-btn">
+              <img src="/assets/images/Sun.svg" alt="Light mode" class="dark-mode-btn__icon">
+              <img src="/assets/images/Moon.svg" alt="Dark mode" class="dark-mode-btn__icon">
+            </button>
+
+            <ul class="nav-list">
+              <li class="nav-list__item"><a class="nav-list__link" href="/home/universities">Find a university</a></li>
+              <li class="nav-list__item"><a class="nav-list__link" href="/home/specialties"> Speciality</a></li>
+              <li class="nav-list__item"><a class="nav-list__link" href="/home/aboutUs">About Us</a></li>
+              <li class="nav-list__item"><a class="nav-list__link" href="/home/courses">Courses</a></li>
+              <li class="nav__button" ><a class="nav-list__link" id="nav__button" href="/home/userPage">Get Started</a></li>
+            </ul>
+
+
+          </div>
+        </div>
+    </nav>
+
+        <div class="uni__card">
+          <div class="container" id="universityList">
+          </div>
+        </div>
+      <div class="pagination">
+        <button id="prevPageBtn" disabled>Previous</button>
+        <div class="page-numbers"></div>
+        <button id="nextPageBtn">Next</button>
+      </div>
+
+        <footer class="footer">
+          <div class="footer_inner">
+            <div class="footer_inner_row">
+              <div class="footer_items">
+                <h2>Get Newsletter</h2>
+                <p>
+                  Be among the first to receive timely program and event info,
+                  career tips, industry trends and more.
+                </p>
+              </div>
+              <div class="footer_items">
+                <h2>Follow Us</h2>
+                <ul>
+                  <li>
+                    <i class="lab la-twitter"></i>
+                  </li>
+                  <li>
+                    <i class="lab la-linkedin-in"></i>
+                  </li>
+                  <li>
+                    <i class="lab la-facebook-f"></i>
+                  </li>
+                  <li>
+                    <i class="lab la-instagram"></i>
+                  </li>
+                </ul>
+              </div>
+              <div class="footer_items">
+                <h2>Useful Links</h2>
+                <p>What we do</p>
+                <p>Our Project</p>
+                <p>FAQ</p>
+                <p>Get In Touch</p>
+              </div>
+              <div class="footer_items">
+                <h2>Contacts</h2>
+                <p>
+                  Address: <br />
+                  <span style="color: #ccc;">Manasa 34 Almaty</span> <br />
+                  Phone: <br />
+                  <span style="color: #ccc;">+ 7 777 777 77 77 </span><br />
+                  Email: <span style="color: #ccc;">iitu.kz</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </footer>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+      <script>
+        AOS.init();
+        document.getElementById("searchBtn").addEventListener("click", function() {
+          var keyword = document.getElementById("searchInput").value;
+          var href = "/home/search?keyword=" + encodeURIComponent(keyword);
+          window.location.href = href;
+        });
+
+        $(document).ready(function() {
+          var universities = []; // Store all universities
+          var universitiesPerPage = 7; // Number of universities to display per page
+          var currentPage = 1; // Current page number
+          var favoriteUniversityIds = []; // Store favorite university IDs for the current user
+          function displayUniversities() {
+            var startIndex = (currentPage - 1) * universitiesPerPage;
+            var endIndex = startIndex + universitiesPerPage;
+            var universityListHTML = '';
+
+            for (var i = startIndex; i < endIndex && i < universities.length; i++) {
+              var university = universities[i];
+              var id = university.id;
+              var favoriteButtonClass = favoriteUniversityIds.includes(id) ? 'favorite-btn red' : 'favorite-btn';
+
+              var universityHTML = `
+            <div class="card__inner">
+              <div class="card__image">
+                <img class="card__img" src="${university.logo}" alt="" style ="width: 450px; height: 300px; object-fit: contain;">
+              </div>
+            <div class="card__title">
+              <div class="card__header">
+                <h1><a class="card__link" href="/home/universities/info?id=${university.id}" >${university.name}</a>
+                </h1>
+              </div>
+              <strong>${university.name}</strong> is a ${university.description.substring(0, 100)}<a class="read-more" href="/home/universities/info?id=${university.id}">...Read More</a> <br/>Located in ${university.location}.
+              <div class="university-website">Website: <a href="${university.website}" target="_blank">${university.website}</a></div>
+              <div class="rating-result">
+                <div class="rating__num">${university.rating}</div>
+                <span class="${university.rating >= 2 ? 'active' : ''}"></span>
+                <span class="${university.rating >= 4 ? 'active' : ''}"></span>
+                <span class="${university.rating >= 6 ? 'active' : ''}"></span>
+                <span class="${university.rating >= 8 ? 'active' : ''}"></span>
+                <span class="${university.rating >= 10 ? 'active' : ''}"></span>
+              </div>
+            </div>
+            <button class="${favoriteButtonClass}" data-id="${university.id}" id="favButton-${university.id}">
+                <i class="fa fa-heart"></i>
+              </button>
+          </div>
+          `;
+              universityListHTML += universityHTML;
+            }
+
+            $('#universityList').html(universityListHTML);
+            // $('#currentPage').text(currentPage);
+
+
+            var totalPages = Math.ceil(universities.length / universitiesPerPage);
+            var pageNumbersHTML = '';
+            for (var i = 1; i <= totalPages; i++) {
+              var pageNumberHTML = `<button class="page-number${i === currentPage ? ' current-page' : ''}" data-page="${i}">${i}</button>`;
+              pageNumbersHTML += pageNumberHTML;
+            }
+            $('.page-numbers').html(pageNumbersHTML);
+
+            // Enable/disable previous and next page buttons based on current page
+            $('#prevPageBtn').prop('disabled', currentPage === 1);
+            $('#nextPageBtn').prop('disabled', endIndex >= universities.length);
+          }
+
+          // Function to handle previous page button click
+          $('#prevPageBtn').on('click', function() {
+            if (currentPage > 1) {
+              currentPage--;
+              displayUniversities();
+              scrollToTop();
+            }
+          });
+
+          // Function to handle next page button click
+          $('#nextPageBtn').on('click', function() {
+            var totalPages = Math.ceil(universities.length / universitiesPerPage);
+            if (currentPage < totalPages) {
+              currentPage++;
+              displayUniversities();
+              scrollToTop();
+            }
+          });
+
+          $(document).on('click', '.page-number', function() {
+            var pageNumber = $(this).data('page');
+            if (pageNumber !== currentPage) {
+              currentPage = pageNumber;
+              displayUniversities();
+              scrollToTop();
+            }
+          });
+          function scrollToTop() {
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+          }
+          // function updateFavoriteButtonColors() {
+          //   $('.favorite-btn').each(function() {
+          //     var universityId = $(this).data('id');
+          //
+          //     if (favoriteUniversityIds.includes(universityId)) {
+          //       $(this).addClass('red');
+          //     } else {
+          //       $(this).removeClass('red');
+          //     }
+          //   });
+          // }
+          // AJAX request to fetch universities from the server
+          $.ajax({
+            type: "GET",
+            url: "/home/universities/list",
+            success: function(data) {
+              universities = data;
+              displayUniversities();
+            },
+            error: function(xhr, status, error) {
+              console.error(error);
+            }
+          });
+
+
+
+          $(document).on('click', '.favorite-btn', function() {
+            var button = $(this);
+            var universityId = button.data('id');
+            var isFavorite = button.hasClass('red');
+
+            // AJAX request to toggle the favorite status
+            $.ajax({
+              type: 'POST',
+              url: '/home/favorites',
+              data: { id: universityId, favorite: !isFavorite },
+              success: function(response) {
+                if (response === true) {
+                  if (isFavorite) {
+                    // Remove universityId from favoriteUniversityIds if it was already favorited
+                    favoriteUniversityIds = favoriteUniversityIds.filter(id => id !== universityId);
+                    button.removeClass('red');
+                  } else {
+                    // Add universityId to favoriteUniversityIds if it was not favorited
+                    favoriteUniversityIds.push(universityId);
+                    button.addClass('red');
+                  }
+                  // updateFavoriteButtonColors(); // Update the favorite button color
+                  console.log('Added toggling favorite:');
+
+                }
+              },
+              error: function(xhr, status, error) {
+                console.log('Error toggling favorite:', error);
+              }
+            });
+          });
+
+          $.ajax({
+            type: "GET",
+            url: "/home/favorites/ids",
+            success: function(data) {
+              favoriteUniversityIds = data;
+              // updateFavoriteButtonColors();
+            },
+            error: function(xhr, status, error) {
+              console.error(error);
+            }
+          });
+            $.ajax({
+              url: "/home/name", // Replace with your endpoint URL
+              method: "GET",
+              success: function(response) {
+                if (response !== "Anonymous") {
+                  var userName = response;
+                  $("#nav__button").text(userName);
+                }
+              }
+            });
+        });
+
+      </script>
+      <script src="/js/main.js"></script>
+    </body>
+</html>

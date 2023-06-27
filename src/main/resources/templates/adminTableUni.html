@@ -1,0 +1,86 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adminka</title>
+    <link rel="stylesheet" href="assets/css/Adminka.css">
+</head>
+<body>
+
+    <!-- Side navigation -->
+    <div class="sidenav">
+        <a href="adminTableUsr.html">Users</a>
+        <a href="adminTableUni.html">Univercity</a>
+    </div>
+
+    <!-- Page content -->
+    <div class="main">
+        <div class="container">
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.firstName}"></td>
+                    <td th:text="${user.lastName}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.password}"></td>
+                    <td>
+                        <button class="button">
+                            Edit
+                        </button>
+                    </td>
+                    <td>
+                        <button class="button">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+<!--                <tr>-->
+<!--                    <td>1</td>-->
+<!--                    <td>SDU</td>-->
+<!--                    <td>aaaa@mail.ru</td>-->
+<!--                    <td>1234</td>-->
+<!--                    <td>-->
+<!--                        <button class="button">-->
+<!--                            Edit-->
+<!--                        </button>-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        <button class="button">-->
+<!--                            Delete-->
+<!--                        </button>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <td>1</td>-->
+<!--                    <td>KBTU</td>-->
+<!--                    <td>aaaa@mail.ru</td>-->
+<!--                    <td>1234</td>-->
+<!--                    <td>-->
+<!--                        <button class="button">-->
+<!--                            Edit-->
+<!--                        </button>-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        <button class="button">-->
+<!--                            Delete-->
+<!--                        </button>-->
+<!--                    </td>-->
+<!--                </tr>-->
+            </table>
+        </div>
+    </div>
+</body>
+</html>
