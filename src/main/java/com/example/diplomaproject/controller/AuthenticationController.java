@@ -1,6 +1,7 @@
 package com.example.diplomaproject.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,11 @@ public class AuthenticationController {
     @GetMapping
     public ModelAndView home() {
         return new ModelAndView("index-DESKTOP-QMGODCK");
+    }
+
+    @GetMapping("/helloworld")
+    public ResponseEntity<String> helloworld() {
+        return ResponseEntity.ok("index-DESKTOP-QMGODCK");
     }
 //    private final AuthenticationManager authenticationManager;
 //    private final UserDao userDao;
